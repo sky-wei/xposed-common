@@ -3,7 +3,7 @@
 主要为Xposed提供一些公共的方法，以方便自己在项目中使用。
 
 
-![](https://jitpack.io/v/sky-wei/xposed-common.svg)](https://jitpack.io/#sky-wei/xposed-common)
+[![](https://jitpack.io/v/sky-wei/xposed-common.svg)](https://jitpack.io/#sky-wei/xposed-common)
 
 
 ### How to
