@@ -14,44 +14,20 @@
  * limitations under the License.
  */
 
-package com.sky.xposed.common;
+package com.sky.xposed.common.app.ui.base;
+
+import android.content.SharedPreferences;
+
+import com.sky.xposed.common.app.Constant;
+import com.sky.xposed.common.ui.base.BaseDialogFragment;
 
 /**
  * Created by sky on 2018/8/8.
  */
-public interface Constant {
+public abstract class BaseDialog extends BaseDialogFragment {
 
-    interface Action {
-
-        String REFRESH_PREFERENCE = BuildConfig.APPLICATION_ID + ".ACTION_REFRESH_PREFERENCE";
-    }
-
-    interface Key {
-
-        String DATA = "data";
-    }
-
-    interface InputType {
-
-        int NUMBER = 0;
-
-        int NUMBER_SIGNED = 1;
-
-        int NUMBER_DECIMAL = 2;
-
-        int TEXT = 3;
-
-        int PHONE = 4;
-
-        int TEXT_PASSWORD = 5;
-
-        int NUMBER_PASSWORD = 6;
-    }
-
-    interface Color {
-
-        int DEFAULT_PRESSED = 0XFFE5E5E5;
-
-        int DEFAULT_BACKGROUND = 0xFFFFFFFF;
+    @Override
+    public SharedPreferences getDefaultSharedPreferences() {
+        return getSharedPreferences(Constant.Name.XPOSED);
     }
 }

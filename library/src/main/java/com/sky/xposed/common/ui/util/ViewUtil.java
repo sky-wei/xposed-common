@@ -18,9 +18,12 @@ package com.sky.xposed.common.ui.util;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.view.View;
@@ -100,11 +103,27 @@ public class ViewUtil {
         return (scrollY > 0) || (scrollY < scrollDifference - 1);
     }
 
-    public static StateListDrawable newBackgroundDrawable() {
+    /**
+     * 默认点击背景色
+     * @return
+     */
+    public static Drawable newBackgroundDrawable() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            int[][] states = new int[2][];
+            states[0] = new int[] { android.R.attr.state_pressed };
+            states[1] = new int[] {};
+
+            int[] colors = new int[] { Constant.Color.DEFAULT_PRESSED, Constant.Color.DEFAULT_PRESSED};
+
+            return new RippleDrawable(new ColorStateList(states, colors),
+                    new ColorDrawable(Color.WHITE), new ColorDrawable(Color.WHITE));
+        }
 
         StateListDrawable drawable = new StateListDrawable();
 
-        drawable.addState(new int[] { android.R.attr.state_pressed }, new ColorDrawable(0xffe5e5e5));
+        drawable.addState(new int[] { android.R.attr.state_pressed }, new ColorDrawable(Constant.Color.DEFAULT_PRESSED));
         drawable.addState(new int[] {}, new ColorDrawable(Color.WHITE));
 
         return drawable;
@@ -156,9 +175,14 @@ public class ViewUtil {
     }
 
     public static SwitchItemView newSwitchItemView(Context context, String name) {
+        return newSwitchItemView(context, name, "");
+    }
+
+    public static SwitchItemView newSwitchItemView(Context context, String name, String desc) {
 
         SwitchItemView itemView = new SwitchItemView(context);
         itemView.setName(name);
+        itemView.setDesc(desc);
 
         return itemView;
     }

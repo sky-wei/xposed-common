@@ -14,44 +14,14 @@
  * limitations under the License.
  */
 
-package com.sky.xposed.common;
+package com.sky.xposed.common.app;
 
-/**
- * Created by sky on 2018/8/8.
- */
 public interface Constant {
 
-    interface Action {
+    interface Name {
 
-        String REFRESH_PREFERENCE = BuildConfig.APPLICATION_ID + ".ACTION_REFRESH_PREFERENCE";
-    }
+        String XPOSED = "xposed";
 
-    interface Key {
-
-        String DATA = "data";
-    }
-
-    interface InputType {
-
-        int NUMBER = 0;
-
-        int NUMBER_SIGNED = 1;
-
-        int NUMBER_DECIMAL = 2;
-
-        int TEXT = 3;
-
-        int PHONE = 4;
-
-        int TEXT_PASSWORD = 5;
-
-        int NUMBER_PASSWORD = 6;
-    }
-
-    interface Color {
-
-        int DEFAULT_PRESSED = 0XFFE5E5E5;
-
-        int DEFAULT_BACKGROUND = 0xFFFFFFFF;
+        String TITLE = "Xposed";
     }
 }

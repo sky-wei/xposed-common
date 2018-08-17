@@ -21,10 +21,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -40,6 +42,7 @@ import com.sky.xposed.common.util.DisplayUtil;
 public class SwitchItemView extends FrameLayout implements View.OnClickListener, TrackViewStatus<Boolean> {
 
     private TextView tvName;
+    private TextView tvDesc;
     private Switch mSwitch;
     private OnCheckedChangeListener mOnCheckedChangeListener;
 
@@ -73,14 +76,25 @@ public class SwitchItemView extends FrameLayout implements View.OnClickListener,
         setLayoutParams(LayoutUtil.newViewGroupParams(
                 LayoutParams.MATCH_PARENT, DisplayUtil.dip2px(getContext(), 40)));
 
+        LinearLayout tvLayout = new LinearLayout(getContext());
+        tvLayout.setOrientation(LinearLayout.VERTICAL);
+
         tvName = new TextView(getContext());
         tvName.setTextColor(Color.BLACK);
         tvName.setTextSize(15);
 
+        tvDesc = new TextView(getContext());
+        tvDesc.setTextColor(Color.GRAY);
+        tvDesc.setTextSize(9);
+        tvDesc.setPadding(DisplayUtil.dip2px(getContext(), 1), 0, 0, 0);
+
+        tvLayout.addView(tvName);
+        tvLayout.addView(tvDesc);
+
         FrameLayout.LayoutParams params = LayoutUtil.newWrapFrameLayoutParams();
         params.gravity = Gravity.CENTER_VERTICAL;
 
-        addView(tvName, params);
+        addView(tvLayout, params);
 
         mSwitch = new Switch(getContext());
         mSwitch.setClickable(false);
@@ -101,6 +115,16 @@ public class SwitchItemView extends FrameLayout implements View.OnClickListener,
 
     public String getName() {
         return tvName.getText().toString();
+    }
+
+    public void setDesc(String desc) {
+        tvDesc.setText(desc);
+        ViewUtil.setVisibility(tvDesc,
+                TextUtils.isEmpty(desc) ? View.GONE : View.VISIBLE);
+    }
+
+    public String getDesc() {
+        return tvDesc.getText().toString();
     }
 
     public void setChecked(boolean checked) {

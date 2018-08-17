@@ -79,6 +79,7 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
         tvTitle = new TextView(getContext());
         tvTitle.setTextColor(Color.WHITE);
         tvTitle.setTextSize(18);
+        tvTitle.getPaint().setFakeBoldText(true);
 
         tLayout.addView(ivClose);
         tLayout.addView(tvTitle);

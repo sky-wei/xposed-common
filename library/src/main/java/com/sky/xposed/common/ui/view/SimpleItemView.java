@@ -56,7 +56,7 @@ public class SimpleItemView extends FrameLayout {
 
         tvName = new TextView(getContext());
         tvName.setTextColor(Color.BLACK);
-        tvName.setTextSize(16);
+        tvName.setTextSize(15);
 
         tvExtend = new TextView(getContext());
         tvExtend.setTextColor(Color.GRAY);
