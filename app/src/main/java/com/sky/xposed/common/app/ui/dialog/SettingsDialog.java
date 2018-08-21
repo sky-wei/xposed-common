@@ -17,19 +17,29 @@
 package com.sky.xposed.common.app.ui.dialog;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 
+import com.sky.xposed.common.app.BuildConfig;
 import com.sky.xposed.common.app.Constant;
+import com.sky.xposed.common.app.R;
 import com.sky.xposed.common.app.ui.base.BaseDialog;
 import com.sky.xposed.common.ui.interfaces.TrackViewStatus;
 import com.sky.xposed.common.ui.util.ViewUtil;
 import com.sky.xposed.common.ui.view.CommonFrameLayout;
 import com.sky.xposed.common.ui.view.SimpleItemView;
+import com.sky.xposed.common.ui.view.SpinnerItemView;
 import com.sky.xposed.common.ui.view.SwitchItemView;
 import com.sky.xposed.common.ui.view.TitleView;
+import com.sky.xposed.common.util.ResourceUtil;
+import com.squareup.picasso.Picasso;
 
 public class SettingsDialog extends BaseDialog {
 
@@ -37,6 +47,7 @@ public class SettingsDialog extends BaseDialog {
     private CommonFrameLayout mCommonFrameLayout;
 
     private SwitchItemView sivAutoPlay;
+    private SpinnerItemView sivTest;
     private SwitchItemView sivAutoAttention;
     private SwitchItemView sivAutoLike;
     private SwitchItemView sivAutoComment;
@@ -58,6 +69,7 @@ public class SettingsDialog extends BaseDialog {
         mToolbar = mCommonFrameLayout.getTitleView();
 
         sivAutoPlay = ViewUtil.newSwitchItemView(getContext(), "自动播放", "自动播放");
+        sivTest = ViewUtil.newSpinnerItemView(getContext(), "操作方式", "", "默认", "定时");
         sivAutoAttention = ViewUtil.newSwitchItemView(getContext(), "自动关注");
         sivAutoLike = ViewUtil.newSwitchItemView(getContext(), "自动点赞");
         sivAutoComment = ViewUtil.newSwitchItemView(getContext(), "自动评论");
@@ -71,6 +83,7 @@ public class SettingsDialog extends BaseDialog {
         sivAutoSaveVideo = ViewUtil.newSwitchItemView(getContext(), "自动保存视频");
 
         mCommonFrameLayout.addContent(sivAutoPlay, true);
+        mCommonFrameLayout.addContent(sivTest, true);
         mCommonFrameLayout.addContent(sivAutoAttention, true);
         mCommonFrameLayout.addContent(sivAutoLike, true);
         mCommonFrameLayout.addContent(sivAutoComment, true);
@@ -90,13 +103,54 @@ public class SettingsDialog extends BaseDialog {
 
         mToolbar.setTitle(Constant.Name.TITLE);
 
-        sivMoreSettings.setOnClickListener(new View.OnClickListener() {
+        mToolbar.showBack();
+        Picasso.get().load(ResourceUtil.resourceIdToUri(BuildConfig.APPLICATION_ID, R.drawable.ic_action_arrow_back)).into(mToolbar.getBackView());
+        mToolbar.setOnBackEventListener(new TitleView.OnBackEventListener() {
+            @Override
+            public void onEvent(View view) {
+                dismiss();
+            }
+        });
+
+        ImageButton newMoreButton = mToolbar.addMoreImageButton();
+        Picasso.get().load(ResourceUtil.resourceIdToUri(BuildConfig.APPLICATION_ID, R.drawable.ic_action_more_vert)).into(newMoreButton);
+        newMoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                PopupMenu popupMenu = new PopupMenu(getApplicationContext(), v, Gravity.RIGHT);
+                Menu menu = popupMenu.getMenu();
+
+                menu.add(1, 1, 1, "导入配置");
+                menu.add(1, 2, 1, "导出配置");
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        return false;
+                    }
+                });
+
+                popupMenu.show();
             }
         });
+
+        sivMoreSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+
+        sivTest.bind(getDefaultSharedPreferences(), "a", "默认", mStringChangeListener);
     }
+
+    private TrackViewStatus.StatusChangeListener<String> mStringChangeListener = new TrackViewStatus.StatusChangeListener<String>() {
+        @Override
+        public boolean onStatusChange(View view, String key, String value) {
+            sendRefreshPreferenceBroadcast(key, value);
+            return true;
+        }
+    };
 
     private TrackViewStatus.StatusChangeListener<Boolean> mBooleanChangeListener = new TrackViewStatus.StatusChangeListener<Boolean>() {
         @Override

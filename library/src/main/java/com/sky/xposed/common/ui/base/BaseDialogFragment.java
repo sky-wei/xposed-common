@@ -73,8 +73,8 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
     public abstract SharedPreferences getDefaultSharedPreferences();
 
-    public <T> void trackBind(TrackViewStatus<T> track, String key, T defValue, TrackViewStatus.StatusChangeListener<T> listener) {
-        track.bind(getDefaultSharedPreferences(), key, defValue, listener);
+    public <T> T trackBind(TrackViewStatus<T> track, String key, T defValue, TrackViewStatus.StatusChangeListener<T> listener) {
+        return track.bind(getDefaultSharedPreferences(), key, defValue, listener);
     }
 
     public void sendRefreshPreferenceBroadcast(String key, Object value) {

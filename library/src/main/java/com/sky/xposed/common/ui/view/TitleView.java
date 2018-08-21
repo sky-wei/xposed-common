@@ -19,8 +19,6 @@ package com.sky.xposed.common.ui.view;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -41,10 +39,10 @@ import com.sky.xposed.common.util.DisplayUtil;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class TitleView extends FrameLayout implements View.OnClickListener {
 
-    private ImageButton ivClose;
+    private ImageButton ivBack;
     private TextView tvTitle;
-    private ImageButton ivMore;
-    private OnTitleEventListener mOnTitleEventListener;
+    private LinearLayout mMoreLayout;
+    private OnBackEventListener mOnBackEventListener;
 
     public TitleView(Context context) {
         this(context, null);
@@ -57,7 +55,7 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
     public TitleView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        int height = DisplayUtil.dip2px(getContext(), 45);
+        int height = getTitleHeight();
 
         setLayoutParams(LayoutUtil.newViewGroupParams(ViewGroup.LayoutParams.MATCH_PARENT, height));
         setBackgroundColor(0xFF161823);
@@ -69,98 +67,112 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
         tLayout.setGravity(Gravity.CENTER_VERTICAL);
         tLayout.setOrientation(LinearLayout.HORIZONTAL);
 
-        ivClose = new ImageButton(getContext());
-        ivClose.setLayoutParams(LayoutUtil.newViewGroupParams(height, height));
-        ivClose.setTag("close");
-        ivClose.setImageResource(android.R.drawable.ic_menu_close_clear_cancel);
-        ivClose.setBackground(newBackgroundDrawable());
-        ivClose.setOnClickListener(this);
+        ivBack = new ImageButton(getContext());
+        ivBack.setLayoutParams(LayoutUtil.newViewGroupParams(height, height));
+        ivBack.setTag("back");
+        ivBack.setBackground(ViewUtil.newTitleBackgroundDrawable());
+        ivBack.setOnClickListener(this);
 
         tvTitle = new TextView(getContext());
         tvTitle.setTextColor(Color.WHITE);
         tvTitle.setTextSize(18);
         tvTitle.getPaint().setFakeBoldText(true);
 
-        tLayout.addView(ivClose);
+        tLayout.addView(ivBack);
         tLayout.addView(tvTitle);
-
-        ivMore = new ImageButton(getContext());
-        ivMore.setTag("more");
-        ivMore.setImageResource(android.R.drawable.ic_menu_more);
-        ivMore.setBackground(newBackgroundDrawable());
-        ivMore.setOnClickListener(this);
 
         FrameLayout.LayoutParams params = LayoutUtil.newWrapFrameLayoutParams();
         params.gravity = Gravity.CENTER_VERTICAL;
 
-        FrameLayout.LayoutParams imageParams = LayoutUtil.newFrameLayoutParams(height, height);
-        imageParams.gravity = Gravity.CENTER_VERTICAL | Gravity.RIGHT;
+        // 更多的Layout
+        mMoreLayout = new LinearLayout(getContext());
+        mMoreLayout.setGravity(Gravity.CENTER_VERTICAL);
+        mMoreLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+        FrameLayout.LayoutParams moreParams = LayoutUtil.newWrapFrameLayoutParams();
+        moreParams.gravity = Gravity.CENTER_VERTICAL | Gravity.RIGHT;
 
         addView(tLayout, params);
-        addView(ivMore, imageParams);
+        addView(mMoreLayout, moreParams);
 
-        hideClose();
-        hideMore();
+        hideBack();
+    }
+
+    public int getTitleHeight() {
+        return DisplayUtil.dip2px(getContext(), 50);
+    }
+
+    public void addMoreView(View view) {
+        mMoreLayout.addView(view);
+    }
+
+    public ImageButton addMoreImageButton() {
+
+        int height = getTitleHeight();
+
+        ImageButton newImageButton = new ImageButton(getContext());
+        newImageButton.setLayoutParams(LayoutUtil.newViewGroupParams(height, height));
+        newImageButton.setBackground(ViewUtil.newTitleBackgroundDrawable());
+
+        addMoreView(newImageButton);
+
+        return newImageButton;
+    }
+
+    public TextView addMoreTextView(String text) {
+
+        int height = getTitleHeight();
+        int left = DisplayUtil.dip2px(getContext(), 5);
+
+        TextView newTextView = new TextView(getContext());
+        newTextView.setText(text);
+        newTextView.setTextSize(15);
+        newTextView.getPaint().setFakeBoldText(true);
+        newTextView.setTextColor(Color.WHITE);
+        newTextView.setPadding(left, 0, left, 0);
+        newTextView.setGravity(Gravity.CENTER);
+        newTextView.setLayoutParams(LayoutUtil.newViewGroupParams(ViewGroup.LayoutParams.WRAP_CONTENT, height));
+        newTextView.setMinWidth(height);
+        newTextView.setBackground(ViewUtil.newTitleBackgroundDrawable());
+
+        addMoreView(newTextView);
+
+        return newTextView;
     }
 
     public void setTitle(String title) {
         tvTitle.setText(title);
     }
 
-    public void showMore() {
-        ViewUtil.setVisibility(ivMore, View.VISIBLE);
-    }
-
-    public void hideMore() {
-        ViewUtil.setVisibility(ivMore, View.GONE);
-    }
-
-    public void showClose() {
-        ViewUtil.setVisibility(ivClose, View.VISIBLE);
+    public void showBack() {
+        ViewUtil.setVisibility(ivBack, View.VISIBLE);
         tvTitle.setPadding(0, 0, 0, 0);
     }
 
-    public void hideClose() {
-        ViewUtil.setVisibility(ivClose, View.GONE);
+    public void hideBack() {
+        ViewUtil.setVisibility(ivBack, View.GONE);
         tvTitle.setPadding(DisplayUtil.dip2px(getContext(), 15), 0, 0, 0);
     }
 
-    public OnTitleEventListener getOnTitleEventListener() {
-        return mOnTitleEventListener;
+    public ImageButton getBackView() {
+        return ivBack;
     }
 
-    public void setOnTitleEventListener(OnTitleEventListener onTitleEventListener) {
-        mOnTitleEventListener = onTitleEventListener;
+    public OnBackEventListener getOnBackEventListener() {
+        return mOnBackEventListener;
+    }
+
+    public void setOnBackEventListener(OnBackEventListener onBackEventListener) {
+        mOnBackEventListener = onBackEventListener;
     }
 
     @Override
     public void onClick(View v) {
-
-        if (mOnTitleEventListener == null) return ;
-
-        String tag = (String) v.getTag();
-
-        if ("close".equals(tag)) {
-            mOnTitleEventListener.onCloseEvent(v);
-        } else {
-            mOnTitleEventListener.onMoreEvent(v);
-        }
+        if (mOnBackEventListener != null) mOnBackEventListener.onEvent(v);
     }
 
-    public interface OnTitleEventListener {
+    public interface OnBackEventListener {
 
-        void onCloseEvent(View view);
-
-        void onMoreEvent(View view);
-    }
-
-    private StateListDrawable newBackgroundDrawable() {
-
-        StateListDrawable drawable = new StateListDrawable();
-
-        drawable.addState(new int[] { android.R.attr.state_pressed }, new ColorDrawable(0x66666666));
-        drawable.addState(new int[] {}, new ColorDrawable(0x00000000));
-
-        return drawable;
+        void onEvent(View view);
     }
 }

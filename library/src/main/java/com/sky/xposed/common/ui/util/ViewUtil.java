@@ -34,6 +34,7 @@ import android.widget.TextView;
 
 import com.sky.xposed.common.Constant;
 import com.sky.xposed.common.ui.view.SimpleItemView;
+import com.sky.xposed.common.ui.view.SpinnerItemView;
 import com.sky.xposed.common.ui.view.SwitchItemView;
 
 /**
@@ -129,6 +130,20 @@ public class ViewUtil {
         return drawable;
     }
 
+    /**
+     * 默认的标题背景色
+     * @return
+     */
+    public static StateListDrawable newTitleBackgroundDrawable() {
+
+        StateListDrawable drawable = new StateListDrawable();
+
+        drawable.addState(new int[] { android.R.attr.state_pressed }, new ColorDrawable(0x66666666));
+        drawable.addState(new int[] {}, new ColorDrawable(0x00000000));
+
+        return drawable;
+    }
+
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
     public static void setInputType(EditText editText, int inputType) {
 
@@ -183,6 +198,16 @@ public class ViewUtil {
         SwitchItemView itemView = new SwitchItemView(context);
         itemView.setName(name);
         itemView.setDesc(desc);
+
+        return itemView;
+    }
+
+    public static SpinnerItemView newSpinnerItemView(Context context, String name, String desc, String... items) {
+
+        SpinnerItemView itemView = new SpinnerItemView(context);
+        itemView.setName(name);
+        itemView.setDesc(desc);
+        itemView.setChooseItem(items);
 
         return itemView;
     }

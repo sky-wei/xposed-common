@@ -202,11 +202,14 @@ public class EditTextItemView extends FrameLayout
     }
 
     @Override
-    public void bind(final SharedPreferences preferences,
+    public String bind(final SharedPreferences preferences,
                      final String key, final String defValue, final StatusChangeListener<String> listener) {
 
+        // 获取状态信息
+        String value = preferences.getString(key, defValue);
+
         // 设置显示信息
-        setExtend(preferences.getString(key, defValue));
+        setExtend(value);
         setOnTextChangeListener(new OnTextChangeListener() {
             @Override
             public String getDefaultText() {
@@ -224,6 +227,7 @@ public class EditTextItemView extends FrameLayout
                 }
             }
         });
+        return value;
     }
 
     interface OnTextChangeListener {

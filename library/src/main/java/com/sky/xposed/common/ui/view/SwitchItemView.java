@@ -145,10 +145,14 @@ public class SwitchItemView extends FrameLayout implements View.OnClickListener,
     }
 
     @Override
-    public void bind(final SharedPreferences preferences,
+    public Boolean bind(final SharedPreferences preferences,
                      final String key, Boolean defValue, final TrackViewStatus.StatusChangeListener<Boolean> listener) {
+
+        // 获取状态信息
+        boolean value = preferences.getBoolean(key, defValue);
+
         // 设置状态
-        setChecked(preferences.getBoolean(key, defValue));
+        setChecked(value);
         setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(View view, boolean isChecked) {
@@ -159,6 +163,7 @@ public class SwitchItemView extends FrameLayout implements View.OnClickListener,
                 }
             }
         });
+        return value;
     }
 
     public interface OnCheckedChangeListener {

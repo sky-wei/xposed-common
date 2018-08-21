@@ -72,8 +72,7 @@ public class LayoutUtil {
     public static LinearLayout newCommonLayout(Context context) {
 
         LinearLayout content = new LinearLayout(context);
-        content.setLayoutParams(LayoutUtil.newMatchLinearLayoutParams());
-        content.setMinimumWidth(DisplayUtil.sp2px(context, 300));
+        content.setLayoutParams(LayoutUtil.newLinearLayoutParams(DisplayUtil.sp2px(context, 310), LinearLayout.LayoutParams.WRAP_CONTENT));
         content.setOrientation(LinearLayout.VERTICAL);
         content.setBackgroundColor(Color.WHITE);
 

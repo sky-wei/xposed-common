@@ -16,18 +16,12 @@
 
 package com.sky.xposed.common.ui.interfaces;
 
-import android.content.SharedPreferences;
-import android.view.View;
-
 /**
- * Created by sky on 2018/8/8.
+ * Created by sky on 2018/8/21.
  */
-public interface TrackViewStatus<T> {
+public interface DisplayItem {
 
-    T bind(SharedPreferences preferences, String key, T defValue, StatusChangeListener<T> listener);
+    String getName();
 
-    interface StatusChangeListener<T> {
-
-        boolean onStatusChange(View view, String key, T value);
-    }
+    Object getValue();
 }
