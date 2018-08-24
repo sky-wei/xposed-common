@@ -16,6 +16,7 @@
 
 package com.sky.xposed.common.app.ui.dialog;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -138,6 +139,12 @@ public class SettingsDialog extends BaseDialog {
         sivMoreSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("测试标题");
+                builder.setMessage("哈哈，哈哈，哈哈，哈哈，哈哈，哈哈，哈哈，哈哈，哈哈，哈哈，哈哈，哈哈，哈哈，哈哈，哈哈，哈哈，哈哈，");
+                builder.setPositiveButton("确认", null);
+                builder.show();
             }
         });
 

@@ -113,7 +113,7 @@ public class SpinnerItemView extends FrameLayout implements View.OnClickListener
 
         TextView tvSymbol = new TextView(getContext());
         tvSymbol.setTextColor(Color.BLACK);
-        tvSymbol.setPadding(DisplayUtil.dip2px(getContext(), 8), 0, left, 0);
+        tvSymbol.setPadding(DisplayUtil.dip2px(getContext(), 8), 0, DisplayUtil.dip2px(getContext(), 4), 0);
         tvSymbol.setTextSize(20);
         tvSymbol.setText("▾");
 
@@ -170,7 +170,8 @@ public class SpinnerItemView extends FrameLayout implements View.OnClickListener
 
         if (mDisplayItems == null) return;
 
-        final PopupMenu popupMenu = new PopupMenu(getContext(), v, Gravity.RIGHT);
+        final PopupMenu popupMenu = new PopupMenu(
+                getContext().getApplicationContext(), v, Gravity.RIGHT);
         Menu menu = popupMenu.getMenu();
 
         for (int i = 0; i < mDisplayItems.size(); i++) {

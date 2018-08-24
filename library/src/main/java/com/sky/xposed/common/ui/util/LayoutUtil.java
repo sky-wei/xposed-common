@@ -17,7 +17,9 @@
 package com.sky.xposed.common.ui.util;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -71,8 +73,13 @@ public class LayoutUtil {
 
     public static LinearLayout newCommonLayout(Context context) {
 
+        int left = DisplayUtil.sp2px(context, 25);
+        int width = (int) DisplayUtil.getWidthPixels(context) - (left << 1);
+        LinearLayout.LayoutParams params = LayoutUtil
+                .newLinearLayoutParams(width, LinearLayout.LayoutParams.WRAP_CONTENT);
+
         LinearLayout content = new LinearLayout(context);
-        content.setLayoutParams(LayoutUtil.newLinearLayoutParams(DisplayUtil.sp2px(context, 310), LinearLayout.LayoutParams.WRAP_CONTENT));
+        content.setLayoutParams(params);
         content.setOrientation(LinearLayout.VERTICAL);
         content.setBackgroundColor(Color.WHITE);
 

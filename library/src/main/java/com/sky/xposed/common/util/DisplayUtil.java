@@ -27,6 +27,14 @@ public class DisplayUtil {
 
     }
 
+    public static float getWidthPixels(Context context) {
+        return context.getResources().getDisplayMetrics().widthPixels;
+    }
+
+    public static float getHeightPixels(Context context) {
+        return context.getResources().getDisplayMetrics().heightPixels;
+    }
+
     public static float getDensity(Context context) {
         return context.getResources().getDisplayMetrics().density;
     }
