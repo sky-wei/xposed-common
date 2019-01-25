@@ -109,6 +109,14 @@ public class SwitchItemView extends FrameLayout implements View.OnClickListener,
         setOnClickListener(this);
     }
 
+    public TextView getNameView() {
+        return tvName;
+    }
+
+    public TextView getDescView() {
+        return tvDesc;
+    }
+
     public void setName(String title) {
         tvName.setText(title);
     }

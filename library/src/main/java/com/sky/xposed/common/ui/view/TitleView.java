@@ -59,9 +59,6 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
 
         setLayoutParams(LayoutUtil.newViewGroupParams(ViewGroup.LayoutParams.MATCH_PARENT, height));
         setBackgroundColor(0xFF161823);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setElevation(6);
-        }
 
         LinearLayout tLayout = new LinearLayout(getContext());
         tLayout.setGravity(Gravity.CENTER_VERTICAL);
@@ -96,6 +93,10 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
         addView(mMoreLayout, moreParams);
 
         hideBack();
+    }
+
+    public TextView getTitleView() {
+        return tvTitle;
     }
 
     public int getTitleHeight() {
@@ -164,6 +165,13 @@ public class TitleView extends FrameLayout implements View.OnClickListener {
 
     public void setOnBackEventListener(OnBackEventListener onBackEventListener) {
         mOnBackEventListener = onBackEventListener;
+    }
+
+    @Override
+    public void setElevation(float elevation) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            super.setElevation(elevation);
+        }
     }
 
     @Override

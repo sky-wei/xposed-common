@@ -76,6 +76,14 @@ public class SimpleItemView extends FrameLayout {
         addView(tvExtend, params);
     }
 
+    public TextView getNameView() {
+        return tvName;
+    }
+
+    public TextView getExtendView() {
+        return tvExtend;
+    }
+
     public void setName(String title) {
         tvName.setText(title);
     }

@@ -76,6 +76,10 @@ public class CommentItemView extends FrameLayout {
         addView(tvContent, params);
     }
 
+    public TextView getContentView() {
+        return tvContent;
+    }
+
     public void setContent(String content) {
         tvContent.setText(content);
     }

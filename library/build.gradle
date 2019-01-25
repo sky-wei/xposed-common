@@ -23,8 +23,8 @@ android {
     compileSdkVersion 27
     defaultConfig {
         targetSdkVersion 27
-        versionCode 4
-        versionName "1.0.4"
+        versionCode 5
+        versionName "1.0.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
