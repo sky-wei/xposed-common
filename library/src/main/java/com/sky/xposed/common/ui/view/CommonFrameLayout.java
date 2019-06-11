@@ -79,22 +79,24 @@ public class CommonFrameLayout extends LinearLayout {
         mTitleView.setTitle(title);
     }
 
-    public void addContent(View child) {
-        addContent(child, false);
+    public CommonFrameLayout addContent(View child) {
+        return addContent(child, false);
     }
 
-    public void addContent(View child, boolean line) {
+    public CommonFrameLayout addContent(View child, boolean line) {
         mContent.addView(child);
         if (line) mContent.addView(ViewUtil.newLineView(getContext()));
+        return this;
+    }
+
+    public CommonFrameLayout addContent(View child, ViewGroup.LayoutParams params) {
+        mContent.addView(child, params);
+        return this;
     }
 
     public void setContent(View view) {
         removeView(mScrollView);
         addView(view);
-    }
-
-    public void addContent(View child, ViewGroup.LayoutParams params) {
-        mContent.addView(child, params);
     }
 }
 

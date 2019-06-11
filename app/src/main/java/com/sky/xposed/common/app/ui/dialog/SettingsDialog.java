@@ -83,20 +83,19 @@ public class SettingsDialog extends BaseDialog {
 
         sivAutoSaveVideo = ViewUtil.newSwitchItemView(getContext(), "自动保存视频");
 
-        mCommonFrameLayout.addContent(sivAutoPlay, true);
-        mCommonFrameLayout.addContent(sivTest, true);
-        mCommonFrameLayout.addContent(sivAutoAttention, true);
-        mCommonFrameLayout.addContent(sivAutoLike, true);
-        mCommonFrameLayout.addContent(sivAutoComment, true);
-        mCommonFrameLayout.addContent(etiAutoCommentList, true);
-        mCommonFrameLayout.addContent(sivAutoSaveVideo, true);
-        mCommonFrameLayout.addContent(sivRemoveLimit, true);
-        mCommonFrameLayout.addContent(sivMoreSettings, true);
-        mCommonFrameLayout.addContent(sivDonate, true);
-        mCommonFrameLayout.addContent(sivAliPayHb, true);
-        mCommonFrameLayout.addContent(sivAbout);
-
-        return mCommonFrameLayout;
+        return mCommonFrameLayout
+                .addContent(sivAutoPlay, true)
+                .addContent(sivTest, true)
+                .addContent(sivAutoAttention, true)
+                .addContent(sivAutoLike, true)
+                .addContent(sivAutoComment, true)
+                .addContent(etiAutoCommentList, true)
+                .addContent(sivAutoSaveVideo, true)
+                .addContent(sivRemoveLimit, true)
+                .addContent(sivMoreSettings, true)
+                .addContent(sivDonate, true)
+                .addContent(sivAliPayHb, true)
+                .addContent(sivAbout);
     }
 
     @Override
@@ -148,7 +147,7 @@ public class SettingsDialog extends BaseDialog {
             }
         });
 
-        sivTest.bind(getDefaultSharedPreferences(), "a", "默认", mStringChangeListener);
+        trackBind(sivTest, "a", "默认", mStringChangeListener);
     }
 
     private TrackViewStatus.StatusChangeListener<String> mStringChangeListener = new TrackViewStatus.StatusChangeListener<String>() {

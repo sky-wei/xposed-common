@@ -20,7 +20,6 @@ import android.annotation.TargetApi;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,6 +29,7 @@ import android.view.ViewGroup;
 import com.sky.xposed.common.Constant;
 import com.sky.xposed.common.helper.ReceiverHelper;
 import com.sky.xposed.common.ui.interfaces.TrackViewStatus;
+import com.sky.xposed.common.ui.interfaces.XPreferences;
 import com.sky.xposed.common.util.Pair;
 
 import java.io.Serializable;
@@ -67,14 +67,21 @@ public abstract class BaseDialogFragment extends DialogFragment {
         return getActivity().getApplicationContext();
     }
 
-    public SharedPreferences getSharedPreferences(String name) {
-        return getContext().getSharedPreferences(name, Context.MODE_PRIVATE);
+    public XPreferences getPreferencesByName(String name) {
+        return getDefaultPreferences().getPreferences(name);
     }
 
-    public abstract SharedPreferences getDefaultSharedPreferences();
+    public abstract XPreferences getDefaultPreferences();
 
-    public <T> T trackBind(TrackViewStatus<T> track, String key, T defValue, TrackViewStatus.StatusChangeListener<T> listener) {
-        return track.bind(getDefaultSharedPreferences(), key, defValue, listener);
+    public <T> TrackViewStatus<T> trackBind(TrackViewStatus<T> track, String key, T defValue, TrackViewStatus.StatusChangeListener<T> listener) {
+        return track
+                .setPreferences(getDefaultPreferences())
+                .bind(key, defValue)
+                .track(listener);
+    }
+
+    public <T> TrackViewStatus<T> trackBind(TrackViewStatus<T> track, String key, T defValue) {
+        return trackBind(track, key, defValue, null);
     }
 
     public void sendRefreshPreferenceBroadcast(String key, Object value) {

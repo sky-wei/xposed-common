@@ -18,7 +18,6 @@ package com.sky.xposed.common.ui.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.text.TextUtils;
@@ -32,7 +31,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import com.sky.xposed.common.ui.interfaces.TrackViewStatus;
 import com.sky.xposed.common.ui.util.LayoutUtil;
 import com.sky.xposed.common.ui.util.ViewUtil;
 import com.sky.xposed.common.util.DisplayUtil;
@@ -44,7 +42,7 @@ import java.util.List;
  * Created by sky on 2018/8/20.
  */
 @TargetApi(Build.VERSION_CODES.KITKAT)
-public class SpinnerItemView extends FrameLayout implements View.OnClickListener, TrackViewStatus<String> {
+public class SpinnerItemView extends XFrameItemView<String> implements View.OnClickListener {
 
     private TextView tvName;
     private TextView tvDesc;
@@ -53,16 +51,15 @@ public class SpinnerItemView extends FrameLayout implements View.OnClickListener
     private List<String> mDisplayItems;
 
     public SpinnerItemView(Context context) {
-        this(context, null);
+        super(context);
     }
 
     public SpinnerItemView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(context, attrs);
     }
 
     public SpinnerItemView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initView();
     }
 
     public OnValueChangeListener getOnValueChangeListener() {
@@ -73,7 +70,8 @@ public class SpinnerItemView extends FrameLayout implements View.OnClickListener
         mOnValueChangeListener = onValueChangeListener;
     }
 
-    private void initView() {
+    @Override
+    protected void initView() {
 
         int left = DisplayUtil.dip2px(getContext(), 15);
 
@@ -194,26 +192,33 @@ public class SpinnerItemView extends FrameLayout implements View.OnClickListener
     }
 
     @Override
-    public String bind(final SharedPreferences preferences,
-                        final String key, String defValue, final TrackViewStatus.StatusChangeListener<String> listener) {
+    protected void bindView() {
 
-        // 获取信息
-        String value = preferences.getString(key, defValue);
-        setValue(value);
-
+        setValue(getKeyValue());
         setOnValueChangeListener(new OnValueChangeListener() {
 
             @Override
             public void onValueChanged(View view, String item) {
 
-                if (listener.onStatusChange(view, key, item)) {
+                if (mStatusChangeListener == null) {
                     // 保存信息
                     setValue(item);
-                    preferences.edit().putString(key, item).apply();
+                    mPreferences.putString(mKey, item);
+                    return;
+                }
+
+                if (mStatusChangeListener.onStatusChange(view, mKey, item)) {
+                    // 保存信息
+                    setValue(item);
+                    mPreferences.putString(mKey, item);
                 }
             }
         });
-        return value;
+    }
+
+    @Override
+    public String getKeyValue() {
+        return mPreferences.getString(mKey, mDefValue);
     }
 
     public interface OnValueChangeListener {

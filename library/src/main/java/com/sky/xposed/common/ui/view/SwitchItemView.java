@@ -18,7 +18,6 @@ package com.sky.xposed.common.ui.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.text.TextUtils;
@@ -30,7 +29,6 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.sky.xposed.common.ui.interfaces.TrackViewStatus;
 import com.sky.xposed.common.ui.util.LayoutUtil;
 import com.sky.xposed.common.ui.util.ViewUtil;
 import com.sky.xposed.common.util.DisplayUtil;
@@ -39,7 +37,7 @@ import com.sky.xposed.common.util.DisplayUtil;
  * Created by sky on 2018/8/8.
  */
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-public class SwitchItemView extends FrameLayout implements View.OnClickListener, TrackViewStatus<Boolean> {
+public class SwitchItemView extends XFrameItemView<Boolean> implements View.OnClickListener {
 
     private TextView tvName;
     private TextView tvDesc;
@@ -47,16 +45,15 @@ public class SwitchItemView extends FrameLayout implements View.OnClickListener,
     private OnCheckedChangeListener mOnCheckedChangeListener;
 
     public SwitchItemView(Context context) {
-        this(context, null);
+        super(context);
     }
 
     public SwitchItemView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(context, attrs);
     }
 
     public SwitchItemView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initView();
     }
 
     public OnCheckedChangeListener getOnCheckedChangeListener() {
@@ -67,7 +64,8 @@ public class SwitchItemView extends FrameLayout implements View.OnClickListener,
         mOnCheckedChangeListener = onCheckedChangeListener;
     }
 
-    private void initView() {
+    @Override
+    protected void initView() {
 
         int left = DisplayUtil.dip2px(getContext(), 15);
 
@@ -153,25 +151,31 @@ public class SwitchItemView extends FrameLayout implements View.OnClickListener,
     }
 
     @Override
-    public Boolean bind(final SharedPreferences preferences,
-                     final String key, Boolean defValue, final TrackViewStatus.StatusChangeListener<Boolean> listener) {
-
-        // 获取状态信息
-        boolean value = preferences.getBoolean(key, defValue);
+    protected void bindView() {
 
         // 设置状态
-        setChecked(value);
+        setChecked(getKeyValue());
         setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(View view, boolean isChecked) {
 
-                if (listener.onStatusChange(view, key, isChecked)) {
+                if (mStatusChangeListener == null) {
                     // 保存状态信息
-                    preferences.edit().putBoolean(key, isChecked).apply();
+                    mPreferences.putBoolean(mKey, isChecked);
+                    return;
+                }
+
+                if (mStatusChangeListener.onStatusChange(view, mKey, isChecked)) {
+                    // 保存状态信息
+                    mPreferences.putBoolean(mKey, isChecked);
                 }
             }
         });
-        return value;
+    }
+
+    @Override
+    public Boolean getKeyValue() {
+        return mPreferences.getBoolean(mKey, mDefValue);
     }
 
     public interface OnCheckedChangeListener {

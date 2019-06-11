@@ -20,7 +20,6 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.text.TextUtils;
@@ -33,7 +32,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.sky.xposed.common.Constant;
-import com.sky.xposed.common.ui.interfaces.TrackViewStatus;
 import com.sky.xposed.common.ui.util.LayoutUtil;
 import com.sky.xposed.common.ui.util.ViewUtil;
 import com.sky.xposed.common.util.DisplayUtil;
@@ -42,8 +40,7 @@ import com.sky.xposed.common.util.DisplayUtil;
  * Created by sky on 2018/8/8.
  */
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-public class EditTextItemView extends FrameLayout
-        implements View.OnClickListener, TrackViewStatus<String> {
+public class EditTextItemView extends XFrameItemView<String> implements View.OnClickListener {
 
     private TextView tvName;
     private TextView tvExtend;
@@ -53,19 +50,19 @@ public class EditTextItemView extends FrameLayout
     private OnTextChangeListener mOnTextChangeListener;
 
     public EditTextItemView(Context context) {
-        this(context, null);
+        super(context);
     }
 
     public EditTextItemView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(context, attrs);
     }
 
     public EditTextItemView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initView();
     }
 
-    private void initView() {
+    @Override
+    protected void initView() {
 
         int left = DisplayUtil.dip2px(getContext(), 15);
 
@@ -202,32 +199,39 @@ public class EditTextItemView extends FrameLayout
     }
 
     @Override
-    public String bind(final SharedPreferences preferences,
-                     final String key, final String defValue, final StatusChangeListener<String> listener) {
-
-        // 获取状态信息
-        String value = preferences.getString(key, defValue);
+    protected void bindView() {
 
         // 设置显示信息
-        setExtend(value);
+        setExtend(getKeyValue());
         setOnTextChangeListener(new OnTextChangeListener() {
             @Override
             public String getDefaultText() {
                 // 获取文本信息
-                return preferences.getString(key, defValue);
+                return getKeyValue();
             }
 
             @Override
             public void onTextChanged(View view, String text) {
 
-                if (listener.onStatusChange(view, key, text)) {
+                if (mStatusChangeListener == null) {
                     // 保存信息
                     setExtend(text);
-                    preferences.edit().putString(key, text).apply();
+                    mPreferences.putString(mKey, text);
+                    return;
+                }
+
+                if (mStatusChangeListener.onStatusChange(view, mKey, text)) {
+                    // 保存信息
+                    setExtend(text);
+                    mPreferences.putString(mKey, text);
                 }
             }
         });
-        return value;
+    }
+
+    @Override
+    public String getKeyValue() {
+        return mPreferences.getString(mKey, mDefValue);
     }
 
     interface OnTextChangeListener {

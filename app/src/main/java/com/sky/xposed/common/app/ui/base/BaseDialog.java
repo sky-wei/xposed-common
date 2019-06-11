@@ -16,10 +16,9 @@
 
 package com.sky.xposed.common.app.ui.base;
 
-import android.content.SharedPreferences;
-
-import com.sky.xposed.common.app.Constant;
+import com.sky.xposed.common.app.App;
 import com.sky.xposed.common.ui.base.BaseDialogFragment;
+import com.sky.xposed.common.ui.interfaces.XPreferences;
 
 /**
  * Created by sky on 2018/8/8.
@@ -27,7 +26,7 @@ import com.sky.xposed.common.ui.base.BaseDialogFragment;
 public abstract class BaseDialog extends BaseDialogFragment {
 
     @Override
-    public SharedPreferences getDefaultSharedPreferences() {
-        return getSharedPreferences(Constant.Name.XPOSED);
+    public XPreferences getDefaultPreferences() {
+        return ((App) getApplicationContext()).getPreferences();
     }
 }
