@@ -32,7 +32,7 @@ import com.sky.xposed.common.app.BuildConfig;
 import com.sky.xposed.common.app.Constant;
 import com.sky.xposed.common.app.R;
 import com.sky.xposed.common.app.ui.base.BaseDialog;
-import com.sky.xposed.common.ui.interfaces.TrackViewStatus;
+import com.sky.xposed.common.interfaces.TrackViewStatus;
 import com.sky.xposed.common.ui.util.ViewUtil;
 import com.sky.xposed.common.ui.view.CommonFrameLayout;
 import com.sky.xposed.common.ui.view.SimpleItemView;

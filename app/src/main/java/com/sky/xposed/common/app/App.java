@@ -18,7 +18,8 @@ package com.sky.xposed.common.app;
 
 import android.app.Application;
 
-import com.sky.xposed.common.ui.interfaces.XPreferences;
+import com.sky.xposed.common.data.LocalPreferences;
+import com.sky.xposed.common.interfaces.XPreferences;
 import com.sky.xposed.common.util.ToastUtil;
 import com.squareup.picasso.Picasso;
 
@@ -37,7 +38,7 @@ public class App extends Application {
         ToastUtil.getInstance().init(this);
         Picasso.setSingletonInstance(new Picasso.Builder(this).build());
 
-        mPreferences = new CorePreferences.Build(this)
+        mPreferences = new LocalPreferences.Build(this)
                 .setConfigName(Constant.Name.XPOSED)
                 .build();
     }

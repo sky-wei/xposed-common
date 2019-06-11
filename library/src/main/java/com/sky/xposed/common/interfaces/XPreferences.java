@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.sky.xposed.common.ui.interfaces;
+package com.sky.xposed.common.interfaces;
 
 import java.util.Set;
 

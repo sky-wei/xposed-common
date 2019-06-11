@@ -20,8 +20,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-import com.sky.xposed.common.ui.interfaces.TrackViewStatus;
-import com.sky.xposed.common.ui.interfaces.XPreferences;
+import com.sky.xposed.common.interfaces.TrackViewStatus;
+import com.sky.xposed.common.interfaces.XPreferences;
 
 /**
  * Created by sky on 2019-06-11.

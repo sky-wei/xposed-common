@@ -14,14 +14,23 @@
  * limitations under the License.
  */
 
-package com.sky.xposed.common.ui.interfaces;
+package com.sky.xposed.common.interfaces;
+
+import android.view.View;
 
 /**
- * Created by sky on 2018/8/21.
+ * Created by sky on 2018/8/8.
  */
-public interface DisplayItem {
+public interface TrackViewStatus<T> {
 
-    String getName();
+    TrackViewStatus<T> setPreferences(XPreferences preferences);
 
-    Object getValue();
+    TrackViewStatus<T> bind(String key, T defValue);
+
+    TrackViewStatus<T> track(StatusChangeListener<T> listener);
+
+    interface StatusChangeListener<T> {
+
+        boolean onStatusChange(View view, String key, T value);
+    }
 }

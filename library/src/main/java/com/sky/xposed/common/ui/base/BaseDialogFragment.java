@@ -28,8 +28,8 @@ import android.view.ViewGroup;
 
 import com.sky.xposed.common.Constant;
 import com.sky.xposed.common.helper.ReceiverHelper;
-import com.sky.xposed.common.ui.interfaces.TrackViewStatus;
-import com.sky.xposed.common.ui.interfaces.XPreferences;
+import com.sky.xposed.common.interfaces.TrackViewStatus;
+import com.sky.xposed.common.interfaces.XPreferences;
 import com.sky.xposed.common.util.Pair;
 
 import java.io.Serializable;

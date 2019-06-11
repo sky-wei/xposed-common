@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.sky.xposed.common.app;
+package com.sky.xposed.common.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.sky.xposed.common.ui.interfaces.XPreferences;
+import com.sky.xposed.common.interfaces.XPreferences;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,13 +28,13 @@ import java.util.Set;
 /**
  * Created by sky on 2019-06-05.
  */
-class CorePreferences implements XPreferences {
+public class LocalPreferences implements XPreferences {
 
     private Context mContext;
     private SimplePreferences mSimplePreferences;
     private Map<String, XPreferences> mManagerMap = new HashMap<>();
 
-    private CorePreferences(Build build) {
+    private LocalPreferences(Build build) {
         mContext = build.mContext;
         mSimplePreferences = new SimplePreferences(build.mContext, build.mName);
     }
@@ -229,22 +229,22 @@ class CorePreferences implements XPreferences {
         }
     }
 
-    static class Build {
+    public static class Build {
 
         private Context mContext;
         private String mName;
 
-        Build(Context context) {
+        public Build(Context context) {
             mContext = context;
         }
 
-        Build setConfigName(String name) {
+        public Build setConfigName(String name) {
             mName = name;
             return this;
         }
 
-        XPreferences build() {
-            return new CorePreferences(this);
+        public XPreferences build() {
+            return new LocalPreferences(this);
         }
     }
 }

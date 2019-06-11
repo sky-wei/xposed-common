@@ -18,7 +18,7 @@ package com.sky.xposed.common.app.ui.base;
 
 import com.sky.xposed.common.app.App;
 import com.sky.xposed.common.ui.base.BaseDialogFragment;
-import com.sky.xposed.common.ui.interfaces.XPreferences;
+import com.sky.xposed.common.interfaces.XPreferences;
 
 /**
  * Created by sky on 2018/8/8.
