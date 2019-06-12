@@ -17,26 +17,22 @@
 package com.sky.xposed.common.ui.view;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.sky.xposed.common.ui.util.LayoutUtil;
 import com.sky.xposed.common.ui.util.ViewUtil;
 import com.sky.xposed.common.util.DisplayUtil;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by sky on 2018/8/20.
@@ -48,7 +44,7 @@ public class SpinnerItemView extends XFrameItemView<String> implements View.OnCl
     private TextView tvDesc;
     private TextView tvValue;
     private OnValueChangeListener mOnValueChangeListener;
-    private List<String> mDisplayItems;
+    private String[] mDisplayItems;
 
     public SpinnerItemView(Context context) {
         super(context);
@@ -143,11 +139,7 @@ public class SpinnerItemView extends XFrameItemView<String> implements View.OnCl
 
         if (items == null) return;
 
-        setChooseItem(Arrays.asList(items));
-    }
-
-    public void setChooseItem(List<String> displayItems) {
-        mDisplayItems = displayItems;
+        mDisplayItems = items;
     }
 
     public void setName(String title) {
@@ -181,27 +173,18 @@ public class SpinnerItemView extends XFrameItemView<String> implements View.OnCl
 
         if (mDisplayItems == null) return;
 
-        final PopupMenu popupMenu = new PopupMenu(
-                getContext().getApplicationContext(), v, Gravity.RIGHT);
-        Menu menu = popupMenu.getMenu();
-
-        for (int i = 0; i < mDisplayItems.size(); i++) {
-            // 添加到菜单中
-            menu.add(1, i + 1, 1, mDisplayItems.get(i));
-        }
-
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setItems(mDisplayItems, new DialogInterface.OnClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
+            public void onClick(DialogInterface dialog, int which) {
                 if (mOnValueChangeListener != null) {
-                    String item1 = mDisplayItems.get(item.getItemId() - 1);
+                    String item1 = mDisplayItems[which];
                     mOnValueChangeListener.onValueChanged(SpinnerItemView.this, item1);
                 }
-                return false;
             }
         });
-
-        popupMenu.show();
+        builder.setTitle(getName());
+        builder.show();
     }
 
     @Override

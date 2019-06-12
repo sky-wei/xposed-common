@@ -135,6 +135,7 @@ public class SwitchItemView extends XFrameItemView<Boolean> implements View.OnCl
 
     public void setChecked(boolean checked) {
         mSwitch.setChecked(checked);
+        tvName.setTextColor(isChecked() ? Color.BLACK : Color.GRAY);
     }
 
     public boolean isChecked() {
