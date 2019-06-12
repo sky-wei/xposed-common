@@ -21,6 +21,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -36,9 +37,10 @@ import com.sky.xposed.common.util.DisplayUtil;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class CommonFrameLayout extends LinearLayout {
 
-    private LinearLayout mContent;
-    private ScrollView mScrollView;
     private TitleView mTitleView;
+    private ScrollView mScrollView;
+    private LinearLayout mContent;
+    private LinearLayout mEndView;
 
     public CommonFrameLayout(Context context) {
         this(context, null);
@@ -69,10 +71,22 @@ public class CommonFrameLayout extends LinearLayout {
         mScrollView.addView(mContent);
 
         addView(mScrollView);
+
+        mEndView = new LinearLayout(getContext());
+        mEndView.setLayoutParams(LayoutUtil.newMatchLinearLayoutParams());
+        mEndView.setPadding(0, top, 0, top);
+        mEndView.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+        mEndView.setOrientation(LinearLayout.HORIZONTAL);
+        mEndView.setVisibility(GONE);
+        addView(mEndView);
     }
 
     public TitleView getTitleView() {
         return mTitleView;
+    }
+
+    public LinearLayout getEndView() {
+        return mEndView;
     }
 
     public void setTitle(String title) {
@@ -97,6 +111,15 @@ public class CommonFrameLayout extends LinearLayout {
     public void setContent(View view) {
         removeView(mScrollView);
         addView(view);
+    }
+
+    public void showEndView() {
+        ViewUtil.setVisibility(mEndView, View.VISIBLE);
+    }
+
+    public CommonFrameLayout addToEndView(View child) {
+        mEndView.addView(child);
+        return this;
     }
 }
 

@@ -109,9 +109,10 @@ public class SpinnerItemView extends XFrameItemView<String> implements View.OnCl
         tvValue.setTextColor(Color.BLACK);
         tvValue.setTextSize(14);
 
+        int pLeft = DisplayUtil.dip2px(getContext(), 10);
         TextView tvSymbol = new TextView(getContext());
         tvSymbol.setTextColor(Color.BLACK);
-        tvSymbol.setPadding(DisplayUtil.dip2px(getContext(), 8), 0, DisplayUtil.dip2px(getContext(), 4), 0);
+        tvSymbol.setPadding(pLeft, 0, pLeft, 0);
         tvSymbol.setTextSize(20);
         tvSymbol.setText("▾");
 
@@ -124,6 +125,18 @@ public class SpinnerItemView extends XFrameItemView<String> implements View.OnCl
         addView(extendLayout, params);
 
         setOnClickListener(this);
+    }
+
+    public TextView getNameView() {
+        return tvName;
+    }
+
+    public TextView getDescView() {
+        return tvDesc;
+    }
+
+    public TextView getValueView() {
+        return tvValue;
     }
 
     public void setChooseItem(String... items) {
