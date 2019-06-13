@@ -85,7 +85,11 @@ public class CommonFrameLayout extends LinearLayout {
         return mTitleView;
     }
 
-    public LinearLayout getEndView() {
+    public LinearLayout getContentView() {
+        return mContent;
+    }
+
+  public LinearLayout getEndView() {
         return mEndView;
     }
 

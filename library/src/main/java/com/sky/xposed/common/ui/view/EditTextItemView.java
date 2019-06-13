@@ -176,16 +176,18 @@ public class EditTextItemView extends XFrameItemView<String> implements View.OnC
     @Override
     public void onClick(View v) {
 
-        int top = DisplayUtil.dip2px(getContext(), 10);
+        int top = DisplayUtil.dip2px(getContext(), 14);
         int left = DisplayUtil.dip2px(getContext(), 24);
 
         FrameLayout frameLayout = new FrameLayout(getContext());
         frameLayout.setLayoutParams(LayoutUtil.newFrameLayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        frameLayout.setPadding(left, top, left, top);
+        frameLayout.setPadding(left, top, left, 0);
 
         final EditText editText = new EditText(getContext());
+        editText.setPadding(0, top >> 1, 0, top >> 1);
         editText.setText(mOnTextChangeListener.getDefaultText());
+        editText.setHint(tvExtend.getHint());
         editText.setLayoutParams(LayoutUtil.newViewGroupParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         ViewUtil.setInputType(editText, mInputType);
