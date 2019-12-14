@@ -23,7 +23,8 @@ import android.util.Log;
  */
 public class Alog {
 
-    public final static String TAG = "Xposed";
+    public static final String TAG = "Xposed";
+    private static final String PREFIX = "ALog.";
 
     private static boolean sDebug = false;
 
@@ -40,11 +41,11 @@ public class Alog {
     }
 
     public static void i(String tag, String msg) {
-        if (sDebug) Log.i(tag, msg);
+        if (sDebug) Log.i(PREFIX + tag, msg);
     }
 
     public static void i(String tag, String msg, Throwable tr) {
-        if (sDebug) Log.i(tag, msg, tr);
+        if (sDebug) Log.i(PREFIX + tag, msg, tr);
     }
 
     public static void d(String msg) {
@@ -52,11 +53,11 @@ public class Alog {
     }
 
     public static void d(String tag, String msg) {
-        if (sDebug) Log.d(tag, msg);
+        if (sDebug) Log.d(PREFIX + tag, msg);
     }
 
     public static void d(String tag, String msg, Throwable tr) {
-        if (sDebug) Log.d(tag, msg, tr);
+        if (sDebug) Log.d(PREFIX + tag, msg, tr);
     }
 
     public static void e(String msg) {
@@ -68,11 +69,11 @@ public class Alog {
     }
 
     public static void e(String tag, String msg) {
-        if (sDebug) Log.e(tag, msg);
+        if (sDebug) Log.e(PREFIX + tag, msg);
     }
 
     public static void e(String tag, String msg, Throwable tr) {
-        if (sDebug) Log.e(tag, msg, tr);
+        if (sDebug) Log.e(PREFIX + tag, msg, tr);
     }
 
     public static void v(String msg) {
@@ -80,11 +81,11 @@ public class Alog {
     }
 
     public static void v(String tag, String msg) {
-        if (sDebug) Log.v(tag, msg);
+        if (sDebug) Log.v(PREFIX + tag, msg);
     }
 
     public static void v(String tag, String msg, Throwable tr) {
-        if (sDebug) Log.v(tag, msg, tr);
+        if (sDebug) Log.v(PREFIX + tag, msg, tr);
     }
 
     public static void w(String msg) {
@@ -92,10 +93,10 @@ public class Alog {
     }
 
     public static void w(String tag, String msg) {
-        if (sDebug) Log.w(tag, msg);
+        if (sDebug) Log.w(PREFIX + tag, msg);
     }
 
     public static void w(String tag, String msg, Throwable tr) {
-        if (sDebug) Log.w(tag, msg, tr);
+        if (sDebug) Log.w(PREFIX + tag, msg, tr);
     }
 }
