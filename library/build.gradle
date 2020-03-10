@@ -22,6 +22,7 @@ group='com.github.sky-wei'
 android {
     compileSdkVersion 27
     defaultConfig {
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode 12
         versionName "1.1.2"
