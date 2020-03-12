@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 The sky Authors.
+ * Copyright (c) 2020 The sky Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import android.content.Context;
 import android.net.Uri;
 
 /**
- * Created by sky on 2018/8/8.
+ * Created by sky on 2020-03-11.
  */
 public class ResourceUtil {
 

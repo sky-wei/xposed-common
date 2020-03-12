@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 The sky Authors.
+ * Copyright (c) 2020 The sky Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,7 +79,7 @@ public class Pair<F, S> implements Serializable {
      * @param b the second object in the pair
      * @return a Pair that is templatized with the types of a and b
      */
-    public static <A, B> Pair<A, B> create( A a,  B b) {
+    public static <A, B> Pair<A, B> create(A a, B b) {
         return new Pair<A, B>(a, b);
     }
 }

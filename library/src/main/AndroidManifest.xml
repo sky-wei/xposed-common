@@ -14,10 +14,6 @@
   ~ limitations under the License.
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sky.xposed.common">
-
-    <application
-        android:label="@string/app_name" />
+<manifest package="com.sky.xposed.common">
 
 </manifest>

@@ -16,14 +16,14 @@
 
 package com.sky.xposed.common.app.ui.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.sky.xposed.common.app.BuildConfig;
 import com.sky.xposed.common.app.R;
-import com.sky.xposed.common.app.ui.dialog.SettingsDialog;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (R.id.menu_settings == item.getItemId()) {
-            SettingsDialog dialog = new SettingsDialog();
-            dialog.show(getFragmentManager(), "settings");
             return true;
         }
         return super.onOptionsItemSelected(item);

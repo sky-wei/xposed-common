@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 The sky Authors.
+ * Copyright (c) 2020 The sky Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ import android.content.pm.Signature;
 import android.text.TextUtils;
 
 import java.io.ByteArrayInputStream;
-import java.io.Serializable;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
@@ -152,13 +151,13 @@ public class PackageUtil {
         return null;
     }
 
-    public static class SimplePackageInfo implements Serializable {
+    public static class SimplePackageInfo {
 
         private String packageName;
         private String versionName;
         private int versionCode;
 
-        public SimplePackageInfo(String packageName, String versionName, int versionCode) {
+        SimplePackageInfo(String packageName, String versionName, int versionCode) {
             this.packageName = packageName;
             this.versionName = versionName;
             this.versionCode = versionCode;

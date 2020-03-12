@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 The sky Authors.
+ * Copyright (c) 2020 The sky Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,7 +76,21 @@ public class ConversionUtil {
         if (!TextUtils.isEmpty(value)) {
             try {
                 result = Float.parseFloat(value);
-            } catch (NumberFormatException e) {
+            } catch (Throwable e) {
+                Alog.e(TAG, "NumberFormatException", e);
+            }
+        }
+        return result;
+    }
+
+    public static double parseDouble(String value, double defaultValue) {
+
+        double result = defaultValue;
+
+        if (!TextUtils.isEmpty(value)) {
+            try {
+                result = Double.parseDouble(value);
+            } catch (Throwable e) {
                 Alog.e(TAG, "NumberFormatException", e);
             }
         }
@@ -98,7 +112,7 @@ public class ConversionUtil {
     }
 
     public static boolean booleanValue(Boolean value, boolean defaultValue) {
-        return value != null ? value.booleanValue() : defaultValue;
+        return value != null ? value : defaultValue;
     }
 
     public static boolean booleanValue(Boolean value) {
@@ -118,7 +132,7 @@ public class ConversionUtil {
     }
 
     public static long longValue(Long value, long defaultValue) {
-        return value != null ? value.longValue() : defaultValue;
+        return value != null ? value : defaultValue;
     }
 
     public static long longValue(Long value) {
@@ -126,7 +140,7 @@ public class ConversionUtil {
     }
 
     public static float floatValue(Float value, float defaultValue) {
-        return value != null ? value.floatValue() : defaultValue;
+        return value != null ? value : defaultValue;
     }
 
     public static float floatValue(Float value) {

@@ -27,7 +27,7 @@ Step 2. Add the dependency
 
 ```
 dependencies {
-        implementation 'com.github.sky-wei:xposed-common:1.0.0'
+        implementation 'com.github.sky-wei:xposed-common:1.2.0'
 }
 ```
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 The sky Authors.
+ * Copyright (c) 2020 The sky Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -115,5 +115,30 @@ public class MD5Util {
             Log.e(TAG, "处理MD5异常", e);
         }
         return null;
+    }
+
+    public static String md5(byte[] bArr) {
+        char[] cArr = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+        try {
+            MessageDigest instance = MessageDigest.getInstance("MD5");
+            instance.update(bArr);
+            byte[] digest = instance.digest();
+            int length = digest.length;
+            char[] cArr2 = new char[(length * 2)];
+            int i = 0;
+            int i2 = 0;
+            while (i < length) {
+                byte b2 = digest[i];
+                int i3 = i2 + 1;
+                cArr2[i2] = cArr[(b2 >>> 4) & 15];
+                int i4 = i3 + 1;
+                cArr2[i3] = cArr[b2 & 15];
+                i++;
+                i2 = i4;
+            }
+            return new String(cArr2);
+        } catch (Exception e2) {
+            return null;
+        }
     }
 }
